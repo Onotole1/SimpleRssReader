@@ -15,7 +15,7 @@ import lombok.NonNull;
  * @author anatoliy
  */
 public final class AlarmController {
-    private final static String ALARM_CONTROLLER = "com.spitchenko.focusstart.base.controller.AlarmController";
+    private final static String ALARM_CONTROLLER = "com.spitchenko.simplerssreader.base.controller.AlarmController";
     private final static String SECONDS = ALARM_CONTROLLER + ".seconds";
 
     private final Context context;

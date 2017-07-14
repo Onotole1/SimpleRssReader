@@ -12,7 +12,7 @@ import lombok.NonNull;
  * @author anatoliy
  */
 public class NetworkDialogShowController {
-    private final static String NETWORK_DIALOG_CONTROLLER = "com.spitchenko.focusstart.controller" +
+    private final static String NETWORK_DIALOG_CONTROLLER = "com.spitchenko.simplerssreader.controller" +
             ".NetworkDialogShowController";
 
     private final SharedPreferences preferences;

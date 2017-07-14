@@ -44,7 +44,7 @@ import static com.spitchenko.simplerssreader.model.ChannelItem.countMatches;
  */
 public final class RssChannelIntentService extends IntentService {
 	private final static String NAME_CHANNEL_SERVICE
-            = "com.spitchenko.focusstart.controller.channel_window.RssChannelIntentService";
+            = "com.spitchenko.simplerssreader.controller.channel_window.RssChannelIntentService";
 	private final static String READ_CURRENT_CHANNEL
             = NAME_CHANNEL_SERVICE + ".readCurrentChannelDb";
 	private final static String READ_CHANNELS = NAME_CHANNEL_SERVICE + ".controller.channelsDb";

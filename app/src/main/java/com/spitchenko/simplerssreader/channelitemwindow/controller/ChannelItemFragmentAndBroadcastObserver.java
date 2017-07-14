@@ -37,7 +37,7 @@ import lombok.NonNull;
  */
 public final class ChannelItemFragmentAndBroadcastObserver implements FragmentAndBroadcastObserver {
     private final static String CHANNEL_FRAGMENT_OBSERVER
-            = "com.spitchenko.focusstart.controller.channel_item_window " +
+            = "com.spitchenko.simplerssreader.controller.channel_item_window " +
             ".ChannelItemFragmentAndBroadcastObserver";
     private final static String CHANNEL_ITEM_FRAGMENT_PREFS_URL
             = CHANNEL_FRAGMENT_OBSERVER + ".channelPrefsUrl";

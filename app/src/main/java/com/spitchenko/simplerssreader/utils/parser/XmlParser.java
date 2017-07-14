@@ -23,7 +23,7 @@ import lombok.NonNull;
 final class XmlParser {
     private final static int MAX_DEPTH = 5;
     private final static String XML_PULL_PARSER
-            = "com.spitchenko.focusstart.utils.parser.XmlParser";
+            = "com.spitchenko.simplerssreader.utils.parser.XmlParser";
     private final static String DEPTH_EXCEPTION = XML_PULL_PARSER + ".depthException";
 	private final XmlPullParser xpp;
     private final InputStream inputStream;

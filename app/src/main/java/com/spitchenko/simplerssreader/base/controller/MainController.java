@@ -34,7 +34,7 @@ import lombok.NonNull;
  */
 public class MainController {
     private final static String MAIN_CONTROLLER
-            = "com.spitchenko.focusstart.base.controller.MainController";
+            = "com.spitchenko.simplerssreader.base.controller.MainController";
     private final static String THEME_PREFERENCES = MAIN_CONTROLLER + ".themePreferences";
 
     private final static String STYLE_TYPENAME = "style";

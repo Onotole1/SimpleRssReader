@@ -24,7 +24,7 @@ import lombok.NonNull;
  * @author anatoliy
  */
 public class BaseActivity extends AppCompatActivity {
-    private final static String BASE_ACTIVITY = "com.spitchenko.focusstart.base.view.BaseActivity";
+    private final static String BASE_ACTIVITY = "com.spitchenko.simplerssreader.base.view.BaseActivity";
     private final static String BASE_ACTIVITY_NOTIFICATION
             = BASE_ACTIVITY + ".baseActivityNotification";
 

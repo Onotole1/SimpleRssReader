@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         final Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.spitchenko.focusstart", appContext.getPackageName());
+        assertEquals("com.spitchenko.simplerssreader", appContext.getPackageName());
     }
 }

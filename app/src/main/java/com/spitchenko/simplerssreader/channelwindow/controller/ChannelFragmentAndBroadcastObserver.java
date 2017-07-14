@@ -30,8 +30,11 @@ import com.spitchenko.simplerssreader.base.controller.UpdateController;
 import com.spitchenko.simplerssreader.channelwindow.view.ChannelFragment;
 import com.spitchenko.simplerssreader.model.Channel;
 import com.spitchenko.simplerssreader.observer.FragmentAndBroadcastObserver;
+import com.spitchenko.simplerssreader.utils.ConfigLoader;
+import com.spitchenko.simplerssreader.utils.FirstLaunchController;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import lombok.NonNull;
 
@@ -43,7 +46,7 @@ import lombok.NonNull;
  */
 public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBroadcastObserver {
     private final static String CHANNEL_BROADCAST_OBSERVER
-            = "com.spitchenko.focusstart.controller.channel_window."
+            = "com.spitchenko.simplerssreader.controller.channel_window."
             + "ChannelFragmentAndBroadcastObserver";
     private final static String RECYCLER_STATE = CHANNEL_BROADCAST_OBSERVER + ".recyclerState";
     private final static String UPDATE = CHANNEL_BROADCAST_OBSERVER + ".update";
@@ -104,7 +107,7 @@ public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBro
     }
 
     private void initFabAndRecycler(final View view) {
-        final FloatingActionButton fab = (FloatingActionButton) view
+        final FloatingActionButton fab = view
                 .findViewById(R.id.fragment_channel_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +116,7 @@ public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBro
             }
         });
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.fragment_channel_recycler_view);
+        recyclerView = view.findViewById(R.id.fragment_channel_recycler_view);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override
             public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy){
@@ -135,11 +138,11 @@ public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBro
 
     private void initOtherViewsAndControllers(final View view) {
         swipeRefreshLayout
-                = (SwipeRefreshLayout) view.findViewById(R.id.fragment_channel_swipe_refresh_layout);
+                = view.findViewById(R.id.fragment_channel_swipe_refresh_layout);
 
 
-        stubLayout = (LinearLayout) view.findViewById(R.id.fragment_channel_stub);
-        progressBar = (ProgressBar) view.findViewById(R.id.fragment_channel_progressBar);
+        stubLayout = view.findViewById(R.id.fragment_channel_stub);
+        progressBar = view.findViewById(R.id.fragment_channel_progressBar);
 
         final AppCompatActivity activity = (AppCompatActivity) fragment.getActivity();
 
@@ -200,6 +203,19 @@ public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBro
                     , null);
 
             updateController.turnOffUpdate();
+        }
+
+        final FirstLaunchController firstLaunchController
+                = new FirstLaunchController(activity);
+        if (firstLaunchController.isFirstLaunch()) {
+            final ConfigLoader configLoader = new ConfigLoader(activity);
+            final Set<String> urlsFromConfig = configLoader.loadUrlsFromConfig();
+            if (null != urlsFromConfig) {
+                for (final String url : urlsFromConfig) {
+                    RssChannelIntentService.start(RssChannelIntentService.getReadWriteActionKey()
+                            , activity, null, url);
+                }
+            }
         }
     }
 

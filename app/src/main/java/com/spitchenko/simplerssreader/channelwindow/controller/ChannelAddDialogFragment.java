@@ -25,7 +25,7 @@ import lombok.NonNull;
  */
 public final class ChannelAddDialogFragment extends DialogFragment {
     private final static String CHANNEL_ADD_DIALOG
-            = "com.spitchenko.focusstart.channelwindow.DialogFragment";
+            = "com.spitchenko.simplerssreader.channelwindow.DialogFragment";
     private final static String DIALOG_FRAGMENT_TAG = CHANNEL_ADD_DIALOG + ".dialogTag";
     private final static String CHANNELS_PREFERENCES_KEY
             = CHANNEL_ADD_DIALOG + "channels_preferences";
@@ -45,7 +45,7 @@ public final class ChannelAddDialogFragment extends DialogFragment {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View promptsView = inflater.inflate(R.layout.add_channel_dialog, null);
-        final EditText userInput = (EditText) promptsView.findViewById(R.id.add_channel_dialog_input_edittext);
+        final EditText userInput = promptsView.findViewById(R.id.add_channel_dialog_input_edittext);
         final SharedPreferences sharedPreferences
                 = getActivity().getSharedPreferences(CHANNELS_PREFERENCES_KEY, Context.MODE_PRIVATE);
 

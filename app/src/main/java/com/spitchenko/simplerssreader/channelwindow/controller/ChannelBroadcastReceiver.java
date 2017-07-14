@@ -23,7 +23,7 @@ import lombok.NonNull;
  */
 public final class ChannelBroadcastReceiver extends BroadcastReceiver {
 	private final static String CHANNEL_BROADCAST_RECEIVER
-            = "com.spitchenko.focusstart.ChannelBroadcastReceiver";
+            = "com.spitchenko.simplerssreader.ChannelBroadcastReceiver";
     private final static String RECEIVE_CHANNELS_KEY = CHANNEL_BROADCAST_RECEIVER + ".receive";
     private final static String REFRESH_DIALOG_KEY = CHANNEL_BROADCAST_RECEIVER + ".RefreshDialog";
     private final static String MESSAGE_KEY = CHANNEL_BROADCAST_RECEIVER + ".MessageKey";

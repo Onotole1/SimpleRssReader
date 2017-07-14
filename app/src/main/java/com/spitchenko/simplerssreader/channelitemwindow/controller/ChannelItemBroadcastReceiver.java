@@ -20,7 +20,7 @@ import lombok.NonNull;
  */
 public final class ChannelItemBroadcastReceiver extends BroadcastReceiver {
 	private final static String CHANNEL_ITEM_BROADCAST_RECEIVER
-            = "com.spitchenko.focusstart.ChannelItemBroadcastReceiver";
+            = "com.spitchenko.simplerssreader.ChannelItemBroadcastReceiver";
     private final static String RECEIVE_CHANNEL_ITEMS = CHANNEL_ITEM_BROADCAST_RECEIVER + ".receive";
     private final static String NO_INTERNET_ACTION = CHANNEL_ITEM_BROADCAST_RECEIVER + ".noInet";
     private final static String CHANNEL_REFRESH = CHANNEL_ITEM_BROADCAST_RECEIVER + ".refresh";

@@ -13,7 +13,7 @@ import lombok.NonNull;
  */
 public class UpdateController {
     private final static String UPDATE_CONTROLLER
-            = "com.spitchenko.focusstart.controller.updateController";
+            = "com.spitchenko.simplerssreader.controller.updateController";
     private final SharedPreferences preferences;
 
     public UpdateController(@NonNull final Context context) {

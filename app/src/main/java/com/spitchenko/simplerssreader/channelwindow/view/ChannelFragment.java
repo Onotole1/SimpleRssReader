@@ -15,7 +15,7 @@ import lombok.NonNull;
 
 public final class ChannelFragment extends BaseFragment {
     private final static String CHANNEL_FRAGMENT
-            = "com.spitchenko.focusstart.channelwindow.view.ChannelFragment";
+            = "com.spitchenko.simplerssreader.channelwindow.view.ChannelFragment";
     private final static String CHANNEL_FRAGMENT_NOTIFICATION = CHANNEL_FRAGMENT + ".notification";
 
     private final FragmentAndBroadcastObserver channelFragmentAndBroadcastObserver

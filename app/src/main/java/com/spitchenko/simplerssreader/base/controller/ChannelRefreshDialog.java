@@ -18,7 +18,7 @@ import com.spitchenko.simplerssreader.channelwindow.controller.RssChannelIntentS
  */
 public final class ChannelRefreshDialog extends DialogFragment {
     private final static String REFRESH_DIALOG =
-            "com.spitchenko.focusstart.base.controller.ChannelRefreshDialog";
+            "com.spitchenko.simplerssreader.base.controller.ChannelRefreshDialog";
     private final static String MESSAGE = REFRESH_DIALOG + ".message";
     private final static String CHANNEL_URL = REFRESH_DIALOG + ".channelUrl";
 

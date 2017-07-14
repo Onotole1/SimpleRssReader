@@ -24,7 +24,7 @@ import lombok.NonNull;
  */
 public final class SettingsFragment extends PreferenceFragment {
     private final static String SETTINGS_FRAGMENT
-            = "com.spitchenko.focusstart.settingswindow.view.SettingsFragment";
+            = "com.spitchenko.simplerssreader.settingswindow.view.SettingsFragment";
 
     private final ArrayList<SettingsFragmentController> observers = new ArrayList<>();
     private final SettingsFragmentController settingsFragmentController

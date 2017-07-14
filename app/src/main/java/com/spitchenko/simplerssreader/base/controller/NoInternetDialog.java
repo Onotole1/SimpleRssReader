@@ -19,7 +19,7 @@ import com.spitchenko.simplerssreader.R;
  */
 public final class NoInternetDialog extends DialogFragment {
     private static final String NO_INTERNET_DIALOG_KEY
-            = "com.spitchenko.focusstart.base.controller.NoInternetDialog";
+            = "com.spitchenko.simplerssreader.base.controller.NoInternetDialog";
 
     @Override
     public final Dialog onCreateDialog(@Nullable final Bundle savedInstanceState) {

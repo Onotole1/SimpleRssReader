@@ -143,10 +143,10 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void setTheme(final String theme) {
+    public void setTheme() {
         for (int i = 0, size = observers.size(); i < size; i++) {
             final MainController observer = observers.get(i);
-            observer.updateOnSetTheme(theme);
+            observer.updateOnSetTheme();
         }
     }
 

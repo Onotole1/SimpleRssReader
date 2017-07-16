@@ -33,13 +33,13 @@ public class Theme {
 
     @Override
     public String toString() {
-        return "\"themeName\":\"" + themeName + "\",\n" +
+        return "{\"themeName\":\"" + themeName + "\",\n" +
                 "         \"colorPrimary\":\"" + colorPrimary + "\",\n" +
                 "         \"colorPrimaryDark\":\"" + colorPrimaryDark + "\",\n" +
                 "         \"colorAccent\":\"" + colorAccent + "\",\n" +
                 "         \"textColorPrimary\":\"" + textColorPrimary + "\",\n" +
                 "         \"textColorContent\":\"" + textColorContent + "\",\n" +
                 "         \"windowBackground\":\"" + windowBackground + "\",\n" +
-                "         \"contentBackground\":\"" + contentBackground + "\"";
+                "         \"contentBackground\":\"" + contentBackground + "\"}";
     }
 }

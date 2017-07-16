@@ -40,7 +40,7 @@ public class ConfigLoader {
     private final static String CHARSET_UTF_8 = "UTF-8";
 
     private final static String IS_THEMES_LOAD = CONFIG_LOADER + "isThemesLoad";
-    private final static String CUSTOM_THEMES_FROM_JSON_ASSETS = CONFIG_LOADER + "theme";
+    private final static String CUSTOM_THEMES_FROM_JSON_ASSETS = "theme";
     private final static String THEMES_FROM_PREFS_KEYS = CONFIG_LOADER + "themesJsonPrefs";
 
     private final static String CUSTOM_THEME_NAME_JSON = "themeName";
@@ -56,8 +56,6 @@ public class ConfigLoader {
     private final static String THEME_COLOR_EXTEND_TEXT_CONTENT_JSON = "textColorContent";
     private final static String THEME_COLOR_EXTEND_WINDOW_BACKGROUND_JSON = "windowBackground";
     private final static String THEME_COLOR_EXTEND_CONTENT_BACKGROUND_JSON = "contentBackground";
-
-    private final static String MAIN_THEME_NAME = "Main theme";
 
     private final Context context;
 
@@ -105,7 +103,7 @@ public class ConfigLoader {
         }
     }
 
-    Set<Theme> getThemes() {
+    public Set<Theme> getThemes() {
         final SharedPreferences sharedPreferences
                 = context.getSharedPreferences(CONFIG_LOADER, Context.MODE_PRIVATE);
 
@@ -142,7 +140,7 @@ public class ConfigLoader {
                     //Main theme set
                     final Theme mainTheme = new Theme();
 
-                    mainTheme.setThemeName(MAIN_THEME_NAME);
+                    mainTheme.setThemeName(Constants.MAIN_THEME_NAME);
 
                     final JSONObject mainThemeColorsJson
                             = rootObject.getJSONObject(MAIN_THEME_COLORS_JSON);
@@ -156,19 +154,16 @@ public class ConfigLoader {
                     mainTheme.setColorAccent(Color.parseColor(mainThemeColorsJson
                             .getString(THEME_COLOR_ACCENT_FROM_JSON)));
 
-                    final JSONObject mainThemeExtendColorsJson
-                            = rootObject.getJSONObject(MAIN_THEME_COLORS_EXTEND_JSON);
-
-                    mainTheme.setTextColorPrimary(Color.parseColor(mainThemeExtendColorsJson
+                    mainTheme.setTextColorPrimary(Color.parseColor(rootObject
                             .getString(THEME_COLOR_EXTEND_TEXT_PRIMARY_JSON)));
 
-                    mainTheme.setTextColorContent(Color.parseColor(mainThemeExtendColorsJson
+                    mainTheme.setTextColorContent(Color.parseColor(rootObject
                             .getString(THEME_COLOR_EXTEND_TEXT_CONTENT_JSON)));
 
-                    mainTheme.setWindowBackground(Color.parseColor(mainThemeExtendColorsJson
+                    mainTheme.setWindowBackground(Color.parseColor(rootObject
                             .getString(THEME_COLOR_EXTEND_WINDOW_BACKGROUND_JSON)));
 
-                    mainTheme.setContentBackground(Color.parseColor(mainThemeExtendColorsJson
+                    mainTheme.setContentBackground(Color.parseColor(rootObject
                             .getString(THEME_COLOR_EXTEND_CONTENT_BACKGROUND_JSON)));
 
                     result.add(mainTheme);
@@ -181,8 +176,7 @@ public class ConfigLoader {
 
                         final Theme customTheme = new Theme();
 
-                        customTheme.setThemeName(currentThemeJson.getString(currentThemeJson
-                                .getString(CUSTOM_THEME_NAME_JSON)));
+                        customTheme.setThemeName(currentThemeJson.getString(CUSTOM_THEME_NAME_JSON));
 
                         customTheme.setColorPrimary(Color.parseColor(currentThemeJson
                                 .getString(THEME_COLOR_PRIMARY_JSON)));
@@ -211,7 +205,7 @@ public class ConfigLoader {
                     final SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean(IS_THEMES_LOAD, true);
 
-                    final Set<String> keys = new HashSet<>();
+                    final Set<String> keys = new HashSet<>(customThemesJsonArray.length() + 1);
 
                     for (final Theme theme:result) {
                         final String themeName = theme.getThemeName();

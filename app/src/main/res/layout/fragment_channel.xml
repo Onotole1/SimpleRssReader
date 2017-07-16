@@ -41,7 +41,7 @@
         android:visibility="gone">
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fragment_channel_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

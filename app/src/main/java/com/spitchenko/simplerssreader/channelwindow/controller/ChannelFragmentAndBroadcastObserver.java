@@ -1,5 +1,6 @@
 package com.spitchenko.simplerssreader.channelwindow.controller;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -8,7 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import com.github.clans.fab.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -27,11 +28,13 @@ import com.spitchenko.simplerssreader.base.controller.ChannelRefreshDialog;
 import com.spitchenko.simplerssreader.base.controller.NetworkDialogShowController;
 import com.spitchenko.simplerssreader.base.controller.NoInternetDialog;
 import com.spitchenko.simplerssreader.base.controller.UpdateController;
+import com.spitchenko.simplerssreader.base.view.BaseActivity;
 import com.spitchenko.simplerssreader.channelwindow.view.ChannelFragment;
 import com.spitchenko.simplerssreader.model.Channel;
 import com.spitchenko.simplerssreader.observer.FragmentAndBroadcastObserver;
 import com.spitchenko.simplerssreader.utils.ConfigLoader;
 import com.spitchenko.simplerssreader.utils.FirstLaunchController;
+import com.spitchenko.simplerssreader.utils.ThemeController;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -78,6 +81,10 @@ public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBro
         initFabAndRecycler(view);
         initItemTouchHelper();
         initOtherViewsAndControllers(view);
+
+        final Activity activity = fragment.getActivity();
+        final ThemeController themeController = new ThemeController(activity);
+        themeController.applyThemeToChannelWindow(view, (BaseActivity) activity);
     }
 
     @Override
@@ -121,7 +128,7 @@ public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBro
             @Override
             public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy){
                 if (dy > 0 ||dy<0 && fab.isShown()) {
-                    fab.hide();
+                    fab.hide(true);
                 }
             }
 
@@ -129,7 +136,7 @@ public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBro
             public void onScrollStateChanged(final RecyclerView recyclerView, final int newState) {
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE){
-                    fab.show();
+                    fab.show(true);
                 }
                 super.onScrollStateChanged(recyclerView, newState);
             }

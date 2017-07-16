@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.spitchenko.simplerssreader.R;
 import com.spitchenko.simplerssreader.model.ChannelItem;
+import com.spitchenko.simplerssreader.model.Theme;
+import com.spitchenko.simplerssreader.utils.ThemeController;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,7 +33,8 @@ import lombok.NonNull;
  */
 final class ChannelItemRecyclerAdapter extends RecyclerView.Adapter<ChannelItemRecyclerViewHolder> {
     private final static String ENCODING = "utf-8";
-    private final static String START_TAGS = "<html><body style='margin:0;padding:0;'>";
+    private final static String START_TAGS = "<html><head><style>body{color: %s;}</style></head>"
+            + "<body style='margin:0;padding:0;'>";
     private final static String END_TAGS = "</body></html>";
     private final static String MIME_TYPE = "text/html";
     private final ArrayList<ChannelItem> channelItems;
@@ -55,9 +58,18 @@ final class ChannelItemRecyclerAdapter extends RecyclerView.Adapter<ChannelItemR
             , final int position) {
         final ChannelItem bindChannel = channelItems.get(position);
 
+        final ThemeController themeController = new ThemeController(context);
+        final Theme currentTheme = themeController.getCurrentTheme();
+        final Integer textColorContent = currentTheme.getTextColorContent();
+
         holder.getTitleChannel().setText(bindChannel.getTitle());
-        final String data = START_TAGS + bindChannel.getSubtitle()
+        holder.getTitleChannel().setTextColor(textColorContent);
+
+        final String data
+                = String.format(START_TAGS, String.format("#%06X", (0xFFFFFF & currentTheme
+                .getTextColorContent()))) + bindChannel.getSubtitle()
                 + END_TAGS;
+
         holder.getSubtitleChannel().loadDataWithBaseURL(null, data
                 , MIME_TYPE, ENCODING, null);
 
@@ -75,6 +87,7 @@ final class ChannelItemRecyclerAdapter extends RecyclerView.Adapter<ChannelItemR
             calendar.setTimeInMillis(timezoneAlteredTime);
 
             holder.getUpdateDate().setText(formatter.format(calendar.getTime()));
+            holder.getUpdateDate().setTextColor(textColorContent);
         }
 		if (!bindChannel.isRead()) {
 			holder.getTitleChannel().setTypeface(null, Typeface.BOLD);

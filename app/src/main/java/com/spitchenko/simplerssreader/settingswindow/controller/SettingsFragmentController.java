@@ -11,6 +11,12 @@ import android.view.Menu;
 import com.spitchenko.simplerssreader.R;
 import com.spitchenko.simplerssreader.base.controller.AlarmController;
 import com.spitchenko.simplerssreader.base.view.BaseActivity;
+import com.spitchenko.simplerssreader.model.Theme;
+import com.spitchenko.simplerssreader.utils.ConfigLoader;
+import com.spitchenko.simplerssreader.utils.Constants;
+import com.spitchenko.simplerssreader.utils.ThemeController;
+
+import java.util.Set;
 
 import lombok.NonNull;
 
@@ -84,12 +90,7 @@ public class SettingsFragmentController {
         final ListPreference themeList = (ListPreference) fragment.findPreference(fragment
                 .getActivity().getResources().getString(R.string.settings_fragment_theme_list));
 
-        if (null != themeList.getEntry()) {
-            themeList.setSummary(themeList.getEntry());
-            themeList.setValueIndex(findIndexOfEntry(themeList));
-        } else {
-            setDefaultThemeList(themeList);
-        }
+        setThemeListPreferenceData(themeList);
 
         themeList.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -98,20 +99,51 @@ public class SettingsFragmentController {
 
                 final String theme = newValue.toString();
 
-                final int index = themeList.findIndexOfValue(theme);
-                if (index != -1) {
-                    themeList.setSummary(themeList.getEntries()[index]);
-                    themeList.setValueIndex(index);
-                    activity.setTheme(theme);
+                final String previousValue = themeList.getValue();
+
+                if (null != previousValue && !previousValue.equals(theme)) {
+                    final int index = themeList.findIndexOfValue(theme);
+                    if (index != -1) {
+                        themeList.setSummary(themeList.getEntries()[index]);
+                        themeList.setValueIndex(index);
+                        final ThemeController themeController = new ThemeController(activity);
+                        themeController.setCurrentTheme(theme);
+                        activity.setTheme();
+                    }
                 }
                 return false;
             }
         });
     }
 
+    private void setThemeListPreferenceData(final ListPreference listPreference) {
+        final ConfigLoader configLoader = new ConfigLoader(fragment.getActivity());
+
+        final Set<Theme> themes = configLoader.getThemes();
+
+        final String[] themeNames = new String[themes.size()];
+
+        int i = 0;
+        for (final Theme theme:themes) {
+            themeNames[i] = theme.getThemeName();
+            i++;
+        }
+
+        listPreference.setEntries(themeNames);
+        listPreference.setDefaultValue(Constants.MAIN_THEME_NAME);
+        listPreference.setEntryValues(themeNames);
+
+        if (null == listPreference.getValue()) {
+            listPreference.setValue(Constants.MAIN_THEME_NAME);
+            listPreference.setSummary(Constants.MAIN_THEME_NAME);
+        } else {
+            listPreference.setSummary(listPreference.getValue());
+        }
+    }
+
     private void initToolbar() {
         final android.support.v7.widget.Toolbar toolbar
-                = (android.support.v7.widget.Toolbar) fragment.getActivity()
+                = fragment.getActivity()
                 .findViewById(R.id.activity_main_toolbar);
 
         toolbar.setTitle(fragment.getString(R.string.settings_activity_title));
@@ -132,11 +164,6 @@ public class SettingsFragmentController {
         }
 
         return -1;
-    }
-
-    private void setDefaultThemeList(final ListPreference themeList) {
-        themeList.setSummary(fragment.getString(R.string.settings_fragment_theme_list_default));
-        themeList.setValueIndex(0);
     }
 
     public void updateOnCreateView() {

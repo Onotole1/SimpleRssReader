@@ -1,5 +1,6 @@
 package com.spitchenko.simplerssreader.base.controller;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -21,6 +22,7 @@ import com.spitchenko.simplerssreader.channelwindow.controller.RssChannelIntentS
 import com.spitchenko.simplerssreader.channelwindow.view.ChannelFragment;
 import com.spitchenko.simplerssreader.model.Channel;
 import com.spitchenko.simplerssreader.settingswindow.view.SettingsFragment;
+import com.spitchenko.simplerssreader.utils.ThemeController;
 
 import java.util.ArrayList;
 
@@ -33,13 +35,6 @@ import lombok.NonNull;
  * @author anatoliy
  */
 public class MainController {
-    private final static String MAIN_CONTROLLER
-            = "com.spitchenko.simplerssreader.base.controller.MainController";
-    private final static String THEME_PREFERENCES = MAIN_CONTROLLER + ".themePreferences";
-
-    private final static String STYLE_TYPENAME = "style";
-    private final static int BAD_VALUE = -1;
-
     private final BaseActivity activity;
 
     public MainController(final BaseActivity activity) {
@@ -47,7 +42,6 @@ public class MainController {
     }
 
     public void updateOnCreate(@Nullable final Bundle savedInstanceState) {
-        setThemeActivity();
         activity.setContentView(R.layout.activity_main);
 
         if (null == savedInstanceState) {
@@ -99,6 +93,7 @@ public class MainController {
             }
         });
 
+        updateOnSetTheme();
     }
 
     public void updateOnSetChannelItemFragment(final Channel channel) {
@@ -116,11 +111,15 @@ public class MainController {
         fragmentTransaction.addToBackStack(ChannelItemFragment.getChannelItemFragmentKey());
 
         fragmentTransaction.commit();
+
+        updateOnSetTheme();
     }
 
     public void updateOnSupportNavigateUp() {
         final FragmentManager manager = activity.getFragmentManager();
         manager.popBackStackImmediate();
+
+        updateOnSetTheme();
     }
 
     private void setChannelFragment(@Nullable final String action) {
@@ -138,6 +137,8 @@ public class MainController {
         fragmentTransaction.add(R.id.activity_main_container, channelFragment
                 , ChannelFragment.getChannelFragmentKey());
         fragmentTransaction.commit();
+
+        updateOnSetTheme();
     }
 
     public void updateOnSetSettingsFragment() {
@@ -153,33 +154,39 @@ public class MainController {
         fragmentTransaction.addToBackStack(SettingsFragment.getSettingsFragmentKey());
 
         fragmentTransaction.commit();
+
+        updateOnSetTheme();
     }
 
-    public void updateOnSetTheme(final String theme) {
-        final int style = activity.getResources().getIdentifier(theme, STYLE_TYPENAME
-                , activity.getPackageName());
-        saveThemeIdToPrefs(style);
+    public void updateOnSetTheme() {
 
-        final Intent activityIntent = activity.getIntent();
-        activity.finish();
-        activity.startActivity(activityIntent);
-    }
+        final ThemeController themeController = new ThemeController(activity);
 
-    private void saveThemeIdToPrefs(final int themeId) {
-        final SharedPreferences preferences
-                = activity.getSharedPreferences(THEME_PREFERENCES, Context.MODE_PRIVATE);
-        final SharedPreferences.Editor edit = preferences.edit();
-        edit.putInt(THEME_PREFERENCES, themeId);
-        edit.apply();
-    }
+        final FragmentManager manager = activity.getFragmentManager();
+        final Fragment channelFragment
+                = manager.findFragmentByTag(ChannelFragment.getChannelFragmentKey());
 
-    private void setThemeActivity() {
-        final SharedPreferences preferences
-                = activity.getSharedPreferences(THEME_PREFERENCES, Context.MODE_PRIVATE);
-        final int themeId = preferences.getInt(THEME_PREFERENCES, BAD_VALUE);
-        if (BAD_VALUE != themeId) {
-            activity.setTheme(themeId);
+        if (null != channelFragment && null != channelFragment.getView()) {
+            themeController.applyThemeToChannelWindow(channelFragment.getView(), activity);
         }
+
+        final Fragment channelItemFragment
+                = manager.findFragmentByTag(ChannelItemFragment.getChannelItemFragmentKey());
+
+        if (null != channelItemFragment && null != channelItemFragment.getView()) {
+            themeController.applyThemeToChannelItemWindow(channelItemFragment.getView(), activity);
+        }
+
+        final Fragment settingsFragment
+                = manager.findFragmentByTag(SettingsFragment.getSettingsFragmentKey());
+
+        if (null != settingsFragment) {
+            themeController.applyThemeToSettingsWindow(activity);
+        }
+
+        /*final Intent activityIntent = activity.getIntent();
+        activity.finish();
+        activity.startActivity(activityIntent);*/
     }
 
     public void updateOnNewIntent(final Intent intent) {

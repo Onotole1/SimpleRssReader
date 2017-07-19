@@ -150,22 +150,14 @@ public class SettingsFragmentController {
 
         toolbar.setTitle(fragment.getString(R.string.settings_activity_title));
 
+        toolbar.setNavigationIcon(null);
+
         final AppCompatActivity activity = (AppCompatActivity) fragment.getActivity();
         activity.setSupportActionBar(toolbar);
         if (null != activity.getSupportActionBar()) {
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-    }
-
-    private int findIndexOfEntry(final ListPreference listPreference) {
-        for (int i = 0; i < listPreference.getEntries().length; i++) {
-            if (listPreference.getEntries()[i].toString().equals(listPreference.getEntry())) {
-                return i;
-            }
-        }
-
-        return -1;
     }
 
     public void updateOnCreateView() {

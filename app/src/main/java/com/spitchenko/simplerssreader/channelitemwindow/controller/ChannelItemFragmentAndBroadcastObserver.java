@@ -93,6 +93,8 @@ public final class ChannelItemFragmentAndBroadcastObserver implements FragmentAn
             toolbar.setTitle(readTitleFromPreferences(activity));
         }
 
+        toolbar.setNavigationIcon(null);
+
         if (null != activity.getSupportActionBar()) {
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);

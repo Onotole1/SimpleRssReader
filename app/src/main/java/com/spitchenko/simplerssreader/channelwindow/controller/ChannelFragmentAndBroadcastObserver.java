@@ -6,6 +6,10 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -17,6 +21,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -40,6 +45,8 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import lombok.NonNull;
+
+import static java.security.AccessController.getContext;
 
 /**
  * Date: 31.03.17
@@ -105,8 +112,22 @@ public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBro
 
         final Toolbar toolbar = (Toolbar) activity.findViewById(R.id.activity_main_toolbar);
         toolbar.setTitle(R.string.app_name);
+        final Resources resources = activity.getResources();
+
+        final DisplayMetrics metrics = resources.getDisplayMetrics();
+        final float dp = 36f;
+        final float fpixels = metrics.density * dp;
+        final int pixels = (int) (fpixels + 0.5f);
+
+        final Drawable drawable = resources.getDrawable(R.drawable.app_icon);
+        final Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+
+        final Drawable resizedAppIcon = new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, pixels, pixels, true));
+
+
+        toolbar.setNavigationIcon(resizedAppIcon);
         if (null != activity.getSupportActionBar()) {
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            //activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
 

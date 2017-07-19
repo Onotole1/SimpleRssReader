@@ -98,6 +98,8 @@ public class MainController {
                 , activity.getString(R.string.app_name)
                 , activity.getApplication());
 
+        AppsgeyserSDK.showPermissionDialog(activity);
+
         updateOnSetTheme();
     }
 

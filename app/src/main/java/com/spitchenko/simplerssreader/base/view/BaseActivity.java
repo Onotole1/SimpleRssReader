@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.appsgeyser.sdk.AppsgeyserSDK;
 import com.spitchenko.simplerssreader.R;
 import com.spitchenko.simplerssreader.base.controller.MainController;
 import com.spitchenko.simplerssreader.model.Channel;
@@ -31,6 +32,14 @@ public class BaseActivity extends AppCompatActivity {
     private final static int OBSERVERS_SIZE = 1;
     private final ArrayList<MainController> observers = new ArrayList<>(OBSERVERS_SIZE);
     private final MainController mainController = new MainController(this);
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode
+            , @android.support.annotation.NonNull final String[] permissions
+            , @android.support.annotation.NonNull final int[] grantResults) {
+        AppsgeyserSDK.sendPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {

@@ -1,47 +1,30 @@
 {
-
   "urls": [
     {
-      "url": "https://news.yandex.ru/auto.rss"
-    },
-    {
-      "url": "https://news.rambler.ru/rss/head/"
-    },
-    {
-      "url": "https://lenta.ru/rss/news"
+      "url": "https:\/\/news.yandex.ru\/auto.rss"
     }
   ],
-
+  "colorPrimary": "2196f3",
+  "colorPrimaryDark": "1976D2",
+  "colorAccent": "448aff",
+  "textColorPrimary": "ffffff",
+  "textColorContent": "0151d4",
+  "windowBackground": "c0f6ff",
+  "contentBackground": "aaffaa",
   "theme": [
     {
-      "themeName": "Dark",
-      "colorPrimary": "#37474f",
-      "colorPrimaryDark": "#263238",
-      "colorAccent": "#4fc7fe",
-      "textColorPrimary": "#ffffff",
-      "textColorContent": "#ffffff",
-      "windowBackground": "#212121",
-      "contentBackground": "#505050"
-    },
-    {
-    "themeName": "Light",
-    "colorPrimary": "#78909c",
-    "colorPrimaryDark": "#546e7a",
-    "colorAccent": "#4fc7fe",
-    "textColorPrimary": "#2c2f30",
-    "textColorContent": "#2c2f30",
-    "windowBackground": "#ffffff",
-    "contentBackground": "#f3f1f1"
+      "themeName": "Light",
+      "colorPrimary": "78909c",
+      "colorPrimaryDark": "546e7a",
+      "colorAccent": "4fc7fe",
+      "textColorPrimary": "2c2f30",
+      "textColorContent": "2c2f30",
+      "windowBackground": "ffffff",
+      "contentBackground": "f3f1f1"
     }
   ],
-
-  "textColorPrimary": "#ffffff",
-  "textColorContent": "#0151d4",
-  "windowBackground": "#c0f6ff",
-  "contentBackground": "#aaffaa",
-
-  "name": "Anatoly",
-  "template": "SimpleRssReader",
+  "name": "currentAppSimpleRssReader",
+  "template": "simpleRssReader",
   "icon": "uploaded_data\/icon.png",
   "themeColors": {
     "colorPrimary": "#2196f3",

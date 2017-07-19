@@ -121,23 +121,25 @@ public class SettingsFragmentController {
 
         final Set<Theme> themes = configLoader.getThemes();
 
-        final String[] themeNames = new String[themes.size()];
+        if (null != themes) {
+            final String[] themeNames = new String[themes.size()];
 
-        int i = 0;
-        for (final Theme theme:themes) {
-            themeNames[i] = theme.getThemeName();
-            i++;
-        }
+            int i = 0;
+            for (final Theme theme : themes) {
+                themeNames[i] = theme.getThemeName();
+                i++;
+            }
 
-        listPreference.setEntries(themeNames);
-        listPreference.setDefaultValue(Constants.MAIN_THEME_NAME);
-        listPreference.setEntryValues(themeNames);
+            listPreference.setEntries(themeNames);
+            listPreference.setDefaultValue(Constants.MAIN_THEME_NAME);
+            listPreference.setEntryValues(themeNames);
 
-        if (null == listPreference.getValue()) {
-            listPreference.setValue(Constants.MAIN_THEME_NAME);
-            listPreference.setSummary(Constants.MAIN_THEME_NAME);
-        } else {
-            listPreference.setSummary(listPreference.getValue());
+            if (null == listPreference.getValue()) {
+                listPreference.setValue(Constants.MAIN_THEME_NAME);
+                listPreference.setSummary(Constants.MAIN_THEME_NAME);
+            } else {
+                listPreference.setSummary(listPreference.getValue());
+            }
         }
     }
 

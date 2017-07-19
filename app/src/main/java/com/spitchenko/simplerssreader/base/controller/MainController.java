@@ -3,7 +3,6 @@ package com.spitchenko.simplerssreader.base.controller;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -56,17 +55,19 @@ public class MainController {
             }
         }
 
-        AppsgeyserSDK.takeOff(activity.getApplication(), activity.getString(R.string.widgetID));
+        AppsgeyserSDK.takeOff(activity.getApplication()
+                , activity.getString(R.string.widgetID)
+                , activity.getString(R.string.app_metrica_on_start_event)
+                , activity.getString(R.string.template_version));
+
         final Analytics appsgeyserAnalytics = AppsgeyserSDK.getAnalytics();
         if (appsgeyserAnalytics != null) {
-            appsgeyserAnalytics.ActivityStarted();
+            appsgeyserAnalytics.activityStarted(activity);
         }
-
-        AppsgeyserSDK.setActivity(activity);
 
         activity.runOnUiThread(new Runnable() {
             public void run() {
-                final FullScreenBanner fullScreenBanner =  AppsgeyserSDK.getFullScreenBanner();
+                final FullScreenBanner fullScreenBanner =  AppsgeyserSDK.getFullScreenBanner(activity);
                 fullScreenBanner.load();
                 fullScreenBanner.setListener(new IFullScreenBannerListener() {
                     @Override
@@ -92,6 +93,10 @@ public class MainController {
                 });
             }
         });
+
+        AppsgeyserSDK.enablePush(BaseActivity.class
+                , activity.getString(R.string.app_name)
+                , activity.getApplication());
 
         updateOnSetTheme();
     }
@@ -190,7 +195,8 @@ public class MainController {
     }
 
     public void updateOnNewIntent(final Intent intent) {
-        if (intent.getAction().equals(BaseActivity.getBaseActivityNotificationKey())) {
+        final String action = intent.getAction();
+        if (null != action && action.equals(BaseActivity.getBaseActivityNotificationKey())) {
             final ArrayList<String> channelsUrls
                     = intent.getStringArrayListExtra(BaseActivity.getBaseActivityNotificationKey());
 

@@ -197,9 +197,13 @@ public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBro
     public void updateOnResume() {
         final AppCompatActivity activity = (AppCompatActivity) fragment.getActivity();
 
-        if (activity.getIntent().getAction().equals(Intent.ACTION_VIEW) && !isAddDialogIntentRun) {
-            isAddDialogIntentRun = true;
-            showAddChannelDialog(activity.getIntent().getData().toString());
+        final Intent intent = activity.getIntent();
+        if (null != intent) {
+            final String action = intent.getAction();
+            if (null != action && action.equals(Intent.ACTION_VIEW) && !isAddDialogIntentRun) {
+                isAddDialogIntentRun = true;
+                showAddChannelDialog(intent.getData().toString());
+            }
         }
 
         subscribe();

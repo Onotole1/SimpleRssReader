@@ -11,6 +11,7 @@ import com.spitchenko.simplerssreader.R;
 import com.spitchenko.simplerssreader.base.view.BaseActivity;
 import com.spitchenko.simplerssreader.channelitemwindow.view.ChannelItemFragment;
 import com.spitchenko.simplerssreader.model.Channel;
+import com.spitchenko.simplerssreader.model.Theme;
 import com.spitchenko.simplerssreader.utils.ThemeController;
 
 import java.util.ArrayList;
@@ -47,11 +48,18 @@ final class ChannelRecyclerAdapter extends RecyclerView.Adapter<ChannelRecyclerV
 		final Channel bindChannel = channels.get(position);
 
 		final ThemeController themeController = new ThemeController(context);
-		final Integer textColorContent = themeController.getCurrentTheme().getTextColorContent();
+        final Theme currentTheme = themeController.getCurrentTheme();
+        Integer textColorContent = null;
+        if (null != currentTheme) {
+            textColorContent = currentTheme.getTextColorContent();
+        }
+        //.getTextColorContent();
 
 		holder.getTitleChannel().setText(bindChannel.getTitle());
 		holder.getSubtitleChannel().setText(bindChannel.getSubtitle());
-		holder.getSubtitleChannel().setTextColor(textColorContent);
+        if (null != textColorContent) {
+            holder.getSubtitleChannel().setTextColor(textColorContent);
+        }
 
 
         if (null != bindChannel.getImage()) {
@@ -66,7 +74,9 @@ final class ChannelRecyclerAdapter extends RecyclerView.Adapter<ChannelRecyclerV
             holder.getTitleChannel().setTypeface(null, Typeface.NORMAL);
         }
 
-		holder.getTitleChannel().setTextColor(textColorContent);
+        if (null != textColorContent) {
+            holder.getTitleChannel().setTextColor(textColorContent);
+        }
 
 		holder.itemView.setOnClickListener (new View.OnClickListener() {
 			@Override

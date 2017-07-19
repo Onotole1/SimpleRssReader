@@ -3,6 +3,8 @@ package com.spitchenko.simplerssreader.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.spitchenko.simplerssreader.model.Theme;
@@ -45,10 +47,6 @@ public class ConfigLoader {
 
     private final static String CUSTOM_THEME_NAME_JSON = "themeName";
 
-    private final static String MAIN_THEME_COLORS_JSON = "themeColors";
-
-    private final static String MAIN_THEME_COLORS_EXTEND_JSON = "themeColorsExtend";
-
     private final static String THEME_COLOR_PRIMARY_JSON = "colorPrimary";
     private final static String THEME_COLOR_PRIMARY_DARK_JSON = "colorPrimaryDark";
     private final static String THEME_COLOR_ACCENT_FROM_JSON = "colorAccent";
@@ -59,10 +57,11 @@ public class ConfigLoader {
 
     private final Context context;
 
-    public ConfigLoader(final Context context) {
+    public ConfigLoader(@NonNull final Context context) {
         this.context = context;
     }
 
+    @Nullable
     public Set<String> loadUrlsFromConfig() {
         final SharedPreferences sharedPreferences
                 = context.getSharedPreferences(CONFIG_LOADER, Context.MODE_PRIVATE);
@@ -103,6 +102,7 @@ public class ConfigLoader {
         }
     }
 
+    @Nullable
     public Set<Theme> getThemes() {
         final SharedPreferences sharedPreferences
                 = context.getSharedPreferences(CONFIG_LOADER, Context.MODE_PRIVATE);
@@ -142,28 +142,25 @@ public class ConfigLoader {
 
                     mainTheme.setThemeName(Constants.MAIN_THEME_NAME);
 
-                    final JSONObject mainThemeColorsJson
-                            = rootObject.getJSONObject(MAIN_THEME_COLORS_JSON);
-
-                    mainTheme.setColorPrimary(Color.parseColor(mainThemeColorsJson
+                    mainTheme.setColorPrimary(parseColor(rootObject
                             .getString(THEME_COLOR_PRIMARY_JSON)));
 
-                    mainTheme.setColorPrimaryDark(Color.parseColor(mainThemeColorsJson
+                    mainTheme.setColorPrimaryDark(parseColor(rootObject
                             .getString(THEME_COLOR_PRIMARY_DARK_JSON)));
 
-                    mainTheme.setColorAccent(Color.parseColor(mainThemeColorsJson
+                    mainTheme.setColorAccent(parseColor(rootObject
                             .getString(THEME_COLOR_ACCENT_FROM_JSON)));
 
-                    mainTheme.setTextColorPrimary(Color.parseColor(rootObject
+                    mainTheme.setTextColorPrimary(parseColor(rootObject
                             .getString(THEME_COLOR_EXTEND_TEXT_PRIMARY_JSON)));
 
-                    mainTheme.setTextColorContent(Color.parseColor(rootObject
+                    mainTheme.setTextColorContent(parseColor(rootObject
                             .getString(THEME_COLOR_EXTEND_TEXT_CONTENT_JSON)));
 
-                    mainTheme.setWindowBackground(Color.parseColor(rootObject
+                    mainTheme.setWindowBackground(parseColor(rootObject
                             .getString(THEME_COLOR_EXTEND_WINDOW_BACKGROUND_JSON)));
 
-                    mainTheme.setContentBackground(Color.parseColor(rootObject
+                    mainTheme.setContentBackground(parseColor(rootObject
                             .getString(THEME_COLOR_EXTEND_CONTENT_BACKGROUND_JSON)));
 
                     result.add(mainTheme);
@@ -178,25 +175,25 @@ public class ConfigLoader {
 
                         customTheme.setThemeName(currentThemeJson.getString(CUSTOM_THEME_NAME_JSON));
 
-                        customTheme.setColorPrimary(Color.parseColor(currentThemeJson
+                        customTheme.setColorPrimary(parseColor(currentThemeJson
                                 .getString(THEME_COLOR_PRIMARY_JSON)));
 
-                        customTheme.setColorPrimaryDark(Color.parseColor(currentThemeJson
+                        customTheme.setColorPrimaryDark(parseColor(currentThemeJson
                                 .getString(THEME_COLOR_PRIMARY_DARK_JSON)));
 
-                        customTheme.setColorAccent(Color.parseColor(currentThemeJson
+                        customTheme.setColorAccent(parseColor(currentThemeJson
                                 .getString(THEME_COLOR_ACCENT_FROM_JSON)));
 
-                        customTheme.setTextColorPrimary(Color.parseColor(currentThemeJson
+                        customTheme.setTextColorPrimary(parseColor(currentThemeJson
                                 .getString(THEME_COLOR_EXTEND_TEXT_PRIMARY_JSON)));
 
-                        customTheme.setTextColorContent(Color.parseColor(currentThemeJson
+                        customTheme.setTextColorContent(parseColor(currentThemeJson
                                 .getString(THEME_COLOR_EXTEND_TEXT_CONTENT_JSON)));
 
-                        customTheme.setWindowBackground(Color.parseColor(currentThemeJson
+                        customTheme.setWindowBackground(parseColor(currentThemeJson
                                 .getString(THEME_COLOR_EXTEND_WINDOW_BACKGROUND_JSON)));
 
-                        customTheme.setContentBackground(Color.parseColor(currentThemeJson
+                        customTheme.setContentBackground(parseColor(currentThemeJson
                                 .getString(THEME_COLOR_EXTEND_CONTENT_BACKGROUND_JSON)));
 
                         result.add(customTheme);
@@ -225,6 +222,14 @@ public class ConfigLoader {
             }
 
             return null;
+        }
+    }
+
+    private Integer parseColor(@NonNull final String input) {
+        if (!input.contains("#")) {
+            return Color.parseColor("#" + input);
+        } else {
+            return Color.parseColor(input);
         }
     }
 }

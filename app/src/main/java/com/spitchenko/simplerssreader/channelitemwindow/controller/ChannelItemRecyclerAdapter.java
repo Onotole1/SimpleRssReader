@@ -33,8 +33,10 @@ import lombok.NonNull;
  */
 final class ChannelItemRecyclerAdapter extends RecyclerView.Adapter<ChannelItemRecyclerViewHolder> {
     private final static String ENCODING = "utf-8";
-    private final static String START_TAGS = "<html><head><style>body{color: %s;}</style></head>"
+    private final static String START_TAGS_CUSTOM_COLOR
+            = "<html><head><style>body{color: %s;}</style></head>"
             + "<body style='margin:0;padding:0;'>";
+    private final static String START_TAGS = "<html><body style='margin:0;padding:0;'>";
     private final static String END_TAGS = "</body></html>";
     private final static String MIME_TYPE = "text/html";
     private final ArrayList<ChannelItem> channelItems;
@@ -60,18 +62,32 @@ final class ChannelItemRecyclerAdapter extends RecyclerView.Adapter<ChannelItemR
 
         final ThemeController themeController = new ThemeController(context);
         final Theme currentTheme = themeController.getCurrentTheme();
-        final Integer textColorContent = currentTheme.getTextColorContent();
+        Integer textColorContent = null;
+        if (null != currentTheme) {
+            textColorContent = currentTheme.getTextColorContent();
+        }
 
         holder.getTitleChannel().setText(bindChannel.getTitle());
-        holder.getTitleChannel().setTextColor(textColorContent);
+        if (null != textColorContent) {
+            holder.getTitleChannel().setTextColor(textColorContent);
+        }
 
-        final String data
-                = String.format(START_TAGS, String.format("#%06X", (0xFFFFFF & currentTheme
-                .getTextColorContent()))) + bindChannel.getSubtitle()
-                + END_TAGS;
+        if (null != currentTheme) {
+            final String data
+                    = String.format(START_TAGS_CUSTOM_COLOR, String.format("#%06X", (0xFFFFFF & currentTheme
+                    .getTextColorContent()))) + bindChannel.getSubtitle()
+                    + END_TAGS;
 
-        holder.getSubtitleChannel().loadDataWithBaseURL(null, data
-                , MIME_TYPE, ENCODING, null);
+            holder.getSubtitleChannel().loadDataWithBaseURL(null, data
+                    , MIME_TYPE, ENCODING, null);
+        } else {
+            final String data
+                    = START_TAGS + bindChannel.getSubtitle()
+                    + END_TAGS;
+
+            holder.getSubtitleChannel().loadDataWithBaseURL(null, data
+                    , MIME_TYPE, ENCODING, null);
+        }
 
         final float fontSize
                 = context.getResources().getDimension(R.dimen.channel_element_web_view_text_size);
@@ -87,7 +103,9 @@ final class ChannelItemRecyclerAdapter extends RecyclerView.Adapter<ChannelItemR
             calendar.setTimeInMillis(timezoneAlteredTime);
 
             holder.getUpdateDate().setText(formatter.format(calendar.getTime()));
-            holder.getUpdateDate().setTextColor(textColorContent);
+            if (null != textColorContent) {
+                holder.getUpdateDate().setTextColor(textColorContent);
+            }
         }
 		if (!bindChannel.isRead()) {
 			holder.getTitleChannel().setTypeface(null, Typeface.BOLD);

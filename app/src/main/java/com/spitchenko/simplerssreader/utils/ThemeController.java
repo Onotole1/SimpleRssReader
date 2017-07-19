@@ -3,12 +3,10 @@ package com.spitchenko.simplerssreader.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import com.github.clans.fab.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -16,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.spitchenko.simplerssreader.R;
 import com.spitchenko.simplerssreader.base.view.BaseActivity;
 import com.spitchenko.simplerssreader.model.Theme;
@@ -40,14 +39,17 @@ public class ThemeController {
         this.context = activity;
     }
 
+    @Nullable
     public Theme getCurrentTheme() {
         final ConfigLoader configLoader = new ConfigLoader(context);
         final Set<Theme> themes = configLoader.getThemes();
 
         Theme currentTheme = null;
-        for (final Theme theme:themes) {
-            if (theme.getThemeName().equals(getCurrentThemeName())) {
-                currentTheme = theme;
+        if (null != themes) {
+            for (final Theme theme : themes) {
+                if (theme.getThemeName().equals(getCurrentThemeName())) {
+                    currentTheme = theme;
+                }
             }
         }
 
@@ -71,40 +73,41 @@ public class ThemeController {
     public void applyThemeToChannelWindow(@NonNull final View view, @NonNull final BaseActivity activity) {
         final ConfigLoader configLoader = new ConfigLoader(context);
         final Set<Theme> themes = configLoader.getThemes();
-
-        Theme currentTheme = null;
-        for (final Theme theme:themes) {
-            if (theme.getThemeName().equals(getCurrentThemeName())) {
-                currentTheme = theme;
-            }
-        }
-
-        if (null != currentTheme) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                final Window window = activity.getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(currentTheme.getColorPrimaryDark());
+        if (null != themes) {
+            Theme currentTheme = null;
+            for (final Theme theme : themes) {
+                if (theme.getThemeName().equals(getCurrentThemeName())) {
+                    currentTheme = theme;
+                }
             }
 
-            final AppBarLayout appBarLayout
-                    = (AppBarLayout) activity.findViewById(R.id.activity_main_app_bar);
-            appBarLayout.setBackgroundColor(currentTheme.getColorPrimary());
+            if (null != currentTheme) {
 
-            final Toolbar toolbar = (Toolbar) activity.findViewById(R.id.activity_main_toolbar);
-            toolbar.setTitleTextColor(currentTheme.getTextColorPrimary());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    final Window window = activity.getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(currentTheme.getColorPrimaryDark());
+                }
 
-            final RecyclerView recyclerView = view.findViewById(R.id.fragment_channel_recycler_view);
-            recyclerView.setBackgroundColor(currentTheme.getContentBackground());
+                final AppBarLayout appBarLayout
+                        = (AppBarLayout) activity.findViewById(R.id.activity_main_app_bar);
+                appBarLayout.setBackgroundColor(currentTheme.getColorPrimary());
 
-            final ProgressBar progressBar = view.findViewById(R.id.fragment_channel_progressBar);
-            progressBar.getIndeterminateDrawable().setColorFilter(currentTheme.getColorAccent()
-                    , PorterDuff.Mode.MULTIPLY);
+                final Toolbar toolbar = (Toolbar) activity.findViewById(R.id.activity_main_toolbar);
+                toolbar.setTitleTextColor(currentTheme.getTextColorPrimary());
 
-            final FloatingActionButton floatingActionButton = view.findViewById(R.id.fragment_channel_fab);
-            floatingActionButton.setColorNormal(currentTheme.getColorAccent());
-            floatingActionButton.setColorPressed(currentTheme.getColorAccent());
-            floatingActionButton.setImageResource(android.R.drawable.ic_input_add);
+                final RecyclerView recyclerView = view.findViewById(R.id.fragment_channel_recycler_view);
+                recyclerView.setBackgroundColor(currentTheme.getContentBackground());
+
+                final ProgressBar progressBar = view.findViewById(R.id.fragment_channel_progressBar);
+                progressBar.getIndeterminateDrawable().setColorFilter(currentTheme.getColorAccent()
+                        , PorterDuff.Mode.MULTIPLY);
+
+                final FloatingActionButton floatingActionButton = view.findViewById(R.id.fragment_channel_fab);
+                floatingActionButton.setColorNormal(currentTheme.getColorAccent());
+                floatingActionButton.setColorPressed(currentTheme.getColorAccent());
+                floatingActionButton.setImageResource(android.R.drawable.ic_input_add);
+            }
         }
     }
 
@@ -113,30 +116,33 @@ public class ThemeController {
         final ConfigLoader configLoader = new ConfigLoader(context);
         final Set<Theme> themes = configLoader.getThemes();
 
-        Theme currentTheme = null;
-        for (final Theme theme:themes) {
-            if (theme.getThemeName().equals(getCurrentThemeName())) {
-                currentTheme = theme;
-            }
-        }
+        if (null != themes) {
 
-        if (null != currentTheme) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                final Window window = activity.getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(currentTheme.getColorPrimaryDark());
+            Theme currentTheme = null;
+            for (final Theme theme : themes) {
+                if (theme.getThemeName().equals(getCurrentThemeName())) {
+                    currentTheme = theme;
+                }
             }
 
-            final AppBarLayout appBarLayout
-                    = (AppBarLayout) activity.findViewById(R.id.activity_main_app_bar);
-            appBarLayout.setBackgroundColor(currentTheme.getColorPrimary());
+            if (null != currentTheme) {
 
-            final Toolbar toolbar = (Toolbar) activity.findViewById(R.id.activity_main_toolbar);
-            toolbar.setTitleTextColor(currentTheme.getTextColorPrimary());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    final Window window = activity.getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(currentTheme.getColorPrimaryDark());
+                }
 
-            final RecyclerView recyclerView = view.findViewById(R.id.fragment_channel_item_recycler_view);
-            recyclerView.setBackgroundColor(currentTheme.getContentBackground());
+                final AppBarLayout appBarLayout
+                        = (AppBarLayout) activity.findViewById(R.id.activity_main_app_bar);
+                appBarLayout.setBackgroundColor(currentTheme.getColorPrimary());
+
+                final Toolbar toolbar = (Toolbar) activity.findViewById(R.id.activity_main_toolbar);
+                toolbar.setTitleTextColor(currentTheme.getTextColorPrimary());
+
+                final RecyclerView recyclerView = view.findViewById(R.id.fragment_channel_item_recycler_view);
+                recyclerView.setBackgroundColor(currentTheme.getContentBackground());
+            }
         }
     }
 
@@ -144,27 +150,30 @@ public class ThemeController {
         final ConfigLoader configLoader = new ConfigLoader(context);
         final Set<Theme> themes = configLoader.getThemes();
 
-        Theme currentTheme = null;
-        for (final Theme theme:themes) {
-            if (theme.getThemeName().equals(getCurrentThemeName())) {
-                currentTheme = theme;
-            }
-        }
+        if (null != themes) {
 
-        if (null != currentTheme) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                final Window window = activity.getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(currentTheme.getColorPrimaryDark());
+            Theme currentTheme = null;
+            for (final Theme theme : themes) {
+                if (theme.getThemeName().equals(getCurrentThemeName())) {
+                    currentTheme = theme;
+                }
             }
 
-            final AppBarLayout appBarLayout
-                    = (AppBarLayout) activity.findViewById(R.id.activity_main_app_bar);
-            appBarLayout.setBackgroundColor(currentTheme.getColorPrimary());
+            if (null != currentTheme) {
 
-            final Toolbar toolbar = (Toolbar) activity.findViewById(R.id.activity_main_toolbar);
-            toolbar.setTitleTextColor(currentTheme.getTextColorPrimary());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    final Window window = activity.getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(currentTheme.getColorPrimaryDark());
+                }
+
+                final AppBarLayout appBarLayout
+                        = (AppBarLayout) activity.findViewById(R.id.activity_main_app_bar);
+                appBarLayout.setBackgroundColor(currentTheme.getColorPrimary());
+
+                final Toolbar toolbar = (Toolbar) activity.findViewById(R.id.activity_main_toolbar);
+                toolbar.setTitleTextColor(currentTheme.getTextColorPrimary());
+            }
         }
     }
 }

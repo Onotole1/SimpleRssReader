@@ -17,7 +17,7 @@
     <string name="no_internet_dialog_turn_on_internet">Включить интернет</string>
 
     <string name="activity_channel_controller_io_exception">Ошибка при вводе URL, проверьте правильность и повторите</string>
-    <string name="activity_channel_channel_image_image_description">channel_image</string>
+    <string name="activity_channel_channel_image_image_description" translatable="false">channel_image</string>
 
     <string name="settings_fragment_notification_checkbox" translatable="false">notif</string>
     <string name="settings_fragment_notifications_list" translatable="false">time</string>
@@ -33,10 +33,10 @@
     <string name="settings_fragment_theme_list_default_value" translatable="false">AppTheme</string>
     <string name="settings_fragment_theme_list_title">Тема</string>
     <string name="settings_fragment_theme_list_dialog">Выберите тему</string>
-    <string name="settings_fragment_theme_list">theme_list</string>
+    <string name="settings_fragment_theme_list" translatable="false">theme_list</string>
 
     <string name="channel_item_recycler_adapter_browser_missing">На вашем устройстве не установлен браузер</string>
-    <string name="widgetID">5292152</string>
+    <string name="widgetID" translatable="false">5292152</string>
 
     <plurals name="rss_channel_intent_service_plurals_news">
         <item quantity="zero">нет обновлений</item>
@@ -46,4 +46,12 @@
         <item quantity="many">имеется %1$d обновлений</item>
         <item quantity="other">имеется %1$d обновлений</item>
     </plurals>
+    <string name="template_version" translatable="false">1.0</string>
+    <string name="app_metrica_on_start_event" translatable="false">
+   {\"wid\":123,
+   \"wname\":\"MyFirstWidget\",
+   \"templates\":\"url,blog,twitter\",
+   \"firstTemplate\":\"url\",
+   \"pid\":1}
+    </string>
 </resources>

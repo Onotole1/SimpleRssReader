@@ -11,7 +11,7 @@
     <dimen name="subtitle_text_size">14sp</dimen>
     <dimen name="channel_element_web_view_text_size">8sp</dimen>
     <dimen name="date_text_size">12sp</dimen>
-    <dimen name="card_corner_radius">2dp</dimen>
+    <dimen name="card_corner_radius">8dp</dimen>
     <dimen name="image_channel_height">80dp</dimen>
     <dimen name="image_channel_width">80dp</dimen>
     <dimen name="empty_text_size">30sp</dimen>

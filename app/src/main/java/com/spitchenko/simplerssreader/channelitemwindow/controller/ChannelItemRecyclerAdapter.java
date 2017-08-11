@@ -3,6 +3,7 @@ package com.spitchenko.simplerssreader.channelitemwindow.controller;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +57,11 @@ final class ChannelItemRecyclerAdapter extends RecyclerView.Adapter<ChannelItemR
     }
 
     @Override
+    public void onViewRecycled(final ChannelItemRecyclerViewHolder holder) {
+        super.onViewRecycled(holder);
+    }
+
+    @Override
     public final void onBindViewHolder(@NonNull final ChannelItemRecyclerViewHolder holder
             , final int position) {
         final ChannelItem bindChannel = channelItems.get(position);
@@ -70,6 +76,8 @@ final class ChannelItemRecyclerAdapter extends RecyclerView.Adapter<ChannelItemR
         holder.getTitleChannel().setText(bindChannel.getTitle());
         if (null != textColorContent) {
             holder.getTitleChannel().setTextColor(textColorContent);
+        } else {
+            holder.getTitleChannel().setTextColor(Color.BLACK);
         }
 
         if (null != currentTheme) {

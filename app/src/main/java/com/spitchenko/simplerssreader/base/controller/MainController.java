@@ -55,50 +55,13 @@ public class MainController {
             }
         }
 
-        AppsgeyserSDK.takeOff(activity.getApplication()
+        AppsgeyserSDK.takeOff(activity
                 , activity.getString(R.string.widgetID)
                 , activity.getString(R.string.app_metrica_on_start_event)
                 , activity.getString(R.string.template_version));
 
-        final Analytics appsgeyserAnalytics = AppsgeyserSDK.getAnalytics();
-        if (appsgeyserAnalytics != null) {
-            appsgeyserAnalytics.activityStarted(activity);
-        }
-
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
-                final FullScreenBanner fullScreenBanner =  AppsgeyserSDK.getFullScreenBanner(activity);
-                fullScreenBanner.load();
-                fullScreenBanner.setListener(new IFullScreenBannerListener() {
-                    @Override
-                    public void onLoadStarted() {
-                        Log.d("Fullscreen", "started");
-                    }
-
-                    @Override
-                    public void onLoadFinished() {
-                        fullScreenBanner.show();
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad() {
-                        Log.e("Fullscreen", "failed");
-                    }
-
-                    @Override
-                    public void onAdHided() {
-                        // called when ad was clicked or closed
-                    }
-
-                });
-            }
-        });
-
-        AppsgeyserSDK.enablePush(BaseActivity.class
-                , activity.getString(R.string.app_name)
-                , activity.getApplication());
-
-        AppsgeyserSDK.showPermissionDialog(activity);
+        AppsgeyserSDK.getFullScreenBanner(activity)
+                .load(com.appsgeyser.sdk.configuration.Constants.BannerLoadTags.ON_START);
 
         updateOnSetTheme();
     }

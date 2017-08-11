@@ -36,7 +36,7 @@
     <string name="settings_fragment_theme_list" translatable="false">theme_list</string>
 
     <string name="channel_item_recycler_adapter_browser_missing">На вашем устройстве не установлен браузер</string>
-    <string name="widgetID" translatable="false">5292152</string>
+    <string name="widgetID" translatable="false">5323340</string>
 
     <plurals name="rss_channel_intent_service_plurals_news">
         <item quantity="zero">нет обновлений</item>

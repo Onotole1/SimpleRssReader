@@ -34,14 +34,6 @@ public class BaseActivity extends AppCompatActivity {
     private final MainController mainController = new MainController(this);
 
     @Override
-    public void onRequestPermissionsResult(final int requestCode
-            , @android.support.annotation.NonNull final String[] permissions
-            , @android.support.annotation.NonNull final int[] grantResults) {
-        AppsgeyserSDK.sendPermissionsResult(requestCode, permissions, grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         addObserver(mainController);
         super.onCreate(savedInstanceState);

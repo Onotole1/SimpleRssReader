@@ -1,1 +1,1 @@
-include ':app', ':appsgeysersdk'
+include ':app'

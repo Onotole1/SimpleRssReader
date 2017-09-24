@@ -3,6 +3,7 @@ package com.spitchenko.simplerssreader.base.controller;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,10 @@ import com.spitchenko.simplerssreader.base.view.BaseActivity;
 import com.spitchenko.simplerssreader.channelwindow.controller.ChannelAddDialogFragment;
 import com.spitchenko.simplerssreader.channelwindow.controller.RssChannelIntentService;
 import com.spitchenko.simplerssreader.channelwindow.view.ChannelFragment;
+import com.spitchenko.simplerssreader.database.AppDatabase;
+import com.spitchenko.simplerssreader.database.dao.RssDao;
+import com.spitchenko.simplerssreader.model.rss.Channel;
+import com.spitchenko.simplerssreader.model.rss.Item;
 import com.spitchenko.simplerssreader.model.rss.Rss;
 import com.spitchenko.simplerssreader.settingswindow.view.SettingsFragment;
 import com.spitchenko.simplerssreader.utils.ThemeController;
@@ -29,6 +34,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
@@ -68,21 +74,14 @@ public class MainController {
             }
         }
 
-        /*AppsgeyserSDK.takeOff(activity
-                , activity.getString(R.string.widgetID)
-                , activity.getString(R.string.app_metrica_on_start_event)
-                , activity.getString(R.string.template_version));
-
-        AppsgeyserSDK.getFullScreenBanner(activity)
-                .load(com.appsgeyser.sdk.configuration.Constants.BannerLoadTags.ON_START);*/
-
         updateOnSetTheme();
+
 
         Single.create(new SingleOnSubscribe<Rss>() {
             @Override
             public void subscribe(@io.reactivex.annotations.NonNull final SingleEmitter<Rss> e) throws Exception {
 
-                final URL url = new URL("https://martinfowler.com/feed.atom");
+                final URL url = new URL("https://news.yandex.ru/auto.rss");
 
                 @Cleanup
                 final InputStream inputStream = getInputStream(url);
@@ -112,7 +111,22 @@ public class MainController {
 
                 final Rss rssModel = gsonXml.fromXml(inputStreamReader, Rss.class);
 
-                if (null != rssModel.getChannel()) {
+                final AppDatabase db = Room.databaseBuilder(MainController.this.activity.getApplicationContext(),
+                        AppDatabase.class, "rss-database").build();
+
+                final RssDao rssDao = db.getRssDao();
+                final Channel rssModelChannel = rssModel.getChannel();
+                rssDao.insertChannel(rssModelChannel);
+
+                final List<Item> rssModelChannelItem = rssModelChannel.getItem();
+
+                for (final Item rssItem:rssModelChannelItem) {
+                    rssItem.setChannelLink(rssModelChannel.getLink());
+                }
+
+                rssDao.insertItems(rssModelChannelItem.toArray(new Item[rssModelChannelItem.size()]));
+
+                if (null != rssModelChannel) {
                     e.onSuccess(rssModel);
                 }
             }
@@ -200,6 +214,7 @@ public class MainController {
             themeController.applyThemeToChannelWindow(channelFragment.getView(), activity);
         }
 
+
         final Fragment settingsFragment
                 = manager.findFragmentByTag(SettingsFragment.getSettingsFragmentKey());
 
@@ -213,8 +228,7 @@ public class MainController {
     }
 
     public void updateOnNewIntent(final Intent intent) {
-        final String action = intent.getAction();
-        if (null != action && action.equals(BaseActivity.getBaseActivityNotificationKey())) {
+        if (intent.getAction().equals(BaseActivity.getBaseActivityNotificationKey())) {
             final ArrayList<String> channelsUrls
                     = intent.getStringArrayListExtra(BaseActivity.getBaseActivityNotificationKey());
 

@@ -1,5 +1,8 @@
 package com.spitchenko.simplerssreader.model.rss;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;

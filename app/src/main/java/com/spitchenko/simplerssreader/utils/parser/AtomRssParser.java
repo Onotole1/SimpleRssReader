@@ -3,8 +3,7 @@ package com.spitchenko.simplerssreader.utils.parser;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.spitchenko.simplerssreader.model.Channel;
-import com.spitchenko.simplerssreader.model.ChannelItem;
+import com.spitchenko.simplerssreader.model.rss.Channel;
 import com.spitchenko.simplerssreader.utils.logger.LogCatHandler;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -12,12 +11,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import lombok.NonNull;
 
@@ -39,7 +32,7 @@ public final class AtomRssParser {
 		if (root.getName().equals(RssTagEnumeration.RSS.text)) {
 			newsModule = parseRss(xmlParser, root, url);
 		} else if (root.getName().equals(AtomTags.FEED.text)) {
-			newsModule = parseAtom(xmlParser, root, url);
+			//newsModule = parseAtom(xmlParser, root, url);
 		}
 		return newsModule;
 	}
@@ -51,11 +44,11 @@ public final class AtomRssParser {
 		try {
 			singleChannel.setTitle(xmlParser.getValueTag(RssTagEnumeration.TITLE.text
                     , RssTagEnumeration.CHANNEL.text, root));
-			singleChannel.setSubtitle(xmlParser.getValueTag(RssTagEnumeration.DESCRIPTION.text
+			/*singleChannel.setSubtitle(xmlParser.getValueTag(RssTagEnumeration.DESCRIPTION.text
                     , RssTagEnumeration.CHANNEL.text, root));
 			singleChannel.setLastBuildDate(parseAtomRssDate(xmlParser.getValueTag(RssTagEnumeration
                             .LAST_BUILD_DATE.text
-					, RssTagEnumeration.CHANNEL.text, root), RssTagEnumeration.DATE_PATTERN.text));
+					, RssTagEnumeration.CHANNEL.text, root), RssTagEnumeration.DATE_PATTERN.text));*/
 		} catch (final NullPointerException e) {
             LogCatHandler.publishInfoRecord(e.getMessage());
 		}
@@ -65,17 +58,17 @@ public final class AtomRssParser {
             final URL imageUrl = new URL(xmlParser.getValueTag(RssTagEnumeration.URL_RSS.text
                     , RssTagEnumeration.IMAGE.text, root));
             final Bitmap bitmap = BitmapFactory.decodeStream((InputStream)imageUrl.getContent());
-            singleChannel.setImage(bitmap);
+            //singleChannel.setImage(bitmap);
         } catch (final IOException e) {
             LogCatHandler.publishInfoRecord(e.getMessage());
         }
 
-		singleChannel.setChannelItems(parseRssChannelItems(root, xmlParser));
+		//singleChannel.setChannelItems(parseRssChannelItems(root, xmlParser));
 
 		return singleChannel;
 	}
 
-	private ArrayList<ChannelItem> parseRssChannelItems(@NonNull final Tag tag
+	/*private ArrayList<ChannelItem> parseRssChannelItems(@NonNull final Tag tag
             , @NonNull final XmlParser xmlParser) {
 		final ArrayList<ChannelItem> channelItems = new ArrayList<>();
 
@@ -198,5 +191,5 @@ public final class AtomRssParser {
             }
         }
 		return channelItems;
-	}
+	}*/
 }

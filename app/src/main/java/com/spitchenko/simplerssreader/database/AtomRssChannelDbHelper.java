@@ -1,22 +1,9 @@
 package com.spitchenko.simplerssreader.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.spitchenko.simplerssreader.model.Channel;
-import com.spitchenko.simplerssreader.model.ChannelItem;
-import com.spitchenko.simplerssreader.utils.logger.LogCatHandler;
-
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-
-import lombok.Cleanup;
 import lombok.NonNull;
 
 import static com.spitchenko.simplerssreader.database.AtomRssDataBase.ChannelEntry;
@@ -81,7 +68,7 @@ public final class AtomRssChannelDbHelper extends SQLiteOpenHelper {
 	}
 
 
-	public final Channel readChannelFromDb(@NonNull final String url) {
+	/*public final Channel readChannelFromDb(@NonNull final String url) {
 		@Cleanup
 		final SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
@@ -113,9 +100,9 @@ public final class AtomRssChannelDbHelper extends SQLiteOpenHelper {
 			} while (cursorChannel.moveToNext());
 		}
 		return result;
-	}
+	}*/
 
-	private ArrayList<ChannelItem> readChannelItemsFromDb(final long channelId) {
+	/*private ArrayList<ChannelItem> readChannelItemsFromDb(final long channelId) {
 		@Cleanup
 		final SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 		final ArrayList<ChannelItem> channelItems = new ArrayList<>();
@@ -299,5 +286,5 @@ public final class AtomRssChannelDbHelper extends SQLiteOpenHelper {
         newChannel.setChannelItems(resultItems);
         deleteChannelFromDb(oldChannel);
         writeChannelToDb(newChannel);
-    }
+    }*/
 }

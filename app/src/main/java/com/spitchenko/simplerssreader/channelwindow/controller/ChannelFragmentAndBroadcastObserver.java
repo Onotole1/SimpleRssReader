@@ -35,7 +35,7 @@ import com.spitchenko.simplerssreader.base.controller.NoInternetDialog;
 import com.spitchenko.simplerssreader.base.controller.UpdateController;
 import com.spitchenko.simplerssreader.base.view.BaseActivity;
 import com.spitchenko.simplerssreader.channelwindow.view.ChannelFragment;
-import com.spitchenko.simplerssreader.model.Channel;
+import com.spitchenko.simplerssreader.model.rss.Channel;
 import com.spitchenko.simplerssreader.observer.FragmentAndBroadcastObserver;
 import com.spitchenko.simplerssreader.utils.ConfigLoader;
 import com.spitchenko.simplerssreader.utils.FirstLaunchController;
@@ -45,8 +45,6 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import lombok.NonNull;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Date: 31.03.17
@@ -205,8 +203,8 @@ public final class ChannelFragmentAndBroadcastObserver implements FragmentAndBro
                         = channelAdapter.getChannels().get(viewHolder.getAdapterPosition());
                 channelAdapter.removeItem(viewHolder.getAdapterPosition());
 
-                RssChannelIntentService.start(RssChannelIntentService.getRemoveChannelKey()
-                        , fragment.getActivity(), channelFromRecycler, null);
+                /*RssChannelIntentService.start(RssChannelIntentService.getRemoveChannelKey()
+                        , fragment.getActivity(), channelFromRecycler, null);*/
             }
         };
 

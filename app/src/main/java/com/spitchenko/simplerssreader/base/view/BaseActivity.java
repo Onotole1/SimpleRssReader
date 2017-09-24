@@ -8,10 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.appsgeyser.sdk.AppsgeyserSDK;
 import com.spitchenko.simplerssreader.R;
 import com.spitchenko.simplerssreader.base.controller.MainController;
-import com.spitchenko.simplerssreader.model.Channel;
+import com.spitchenko.simplerssreader.model.rss.Channel;
 import com.spitchenko.simplerssreader.settingswindow.view.SettingsFragment;
 
 import java.util.ArrayList;
@@ -133,7 +132,7 @@ public class BaseActivity extends AppCompatActivity {
     private void notifyOnSetChannelItemFragment(final Channel channel) {
         for (int i = 0, size = observers.size(); i < size; i++) {
             final MainController observer = observers.get(i);
-            observer.updateOnSetChannelItemFragment(channel);
+            //observer.updateOnSetChannelItemFragment(channel);
         }
     }
 

@@ -13,15 +13,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.spitchenko.simplerssreader.R;
 import com.spitchenko.simplerssreader.base.controller.UpdateController;
-import com.spitchenko.simplerssreader.base.view.BaseActivity;
-import com.spitchenko.simplerssreader.database.AtomRssChannelDbHelper;
-import com.spitchenko.simplerssreader.database.AtomRssDataBase;
-import com.spitchenko.simplerssreader.model.Channel;
-import com.spitchenko.simplerssreader.model.ChannelItem;
+import com.spitchenko.simplerssreader.model.rss.Channel;
 import com.spitchenko.simplerssreader.utils.logger.LogCatHandler;
-import com.spitchenko.simplerssreader.utils.parser.AtomRssParser;
-
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -34,7 +27,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 import lombok.NonNull;
 
-import static com.spitchenko.simplerssreader.model.ChannelItem.countMatches;
 
 /**
  * Date: 09.03.17
@@ -104,7 +96,7 @@ public final class RssChannelIntentService extends IntentService {
     }
 
     private void refreshCurrentChannel(@NonNull final Intent intent) {
-        ChannelBroadcastReceiver.start(null, ChannelBroadcastReceiver.getLoadingAction()
+        /*ChannelBroadcastReceiver.start(null, ChannelBroadcastReceiver.getLoadingAction()
                 , getPackageName(), this);
         final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
         final AtomRssParser atomRssParser = new AtomRssParser();
@@ -127,11 +119,11 @@ public final class RssChannelIntentService extends IntentService {
                 ChannelBroadcastReceiver.start(null
                         , ChannelBroadcastReceiver.getIoExceptionAction(), getPackageName(), this);
             }
-        }
+        }*/
     }
 
     private void refreshAllChannels() {
-        final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
+        /*final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
         final ArrayList<Channel> channelsDb = channelDbHelper.readAllChannelsFromDb();
         final AtomRssParser atomRssParser = new AtomRssParser();
 
@@ -169,11 +161,11 @@ public final class RssChannelIntentService extends IntentService {
                             , this);
                 }
             }
-        }
+        }*/
     }
 
     private void notificationReload() {
-        final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
+        /*final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
         final ArrayList<Channel> channels = channelDbHelper.readAllChannelsFromDb();
         final ArrayList<String> channelUrls = new ArrayList<>();
 
@@ -182,11 +174,11 @@ public final class RssChannelIntentService extends IntentService {
             channelUrls.add(channel.getLink());
         }
 
-        BaseActivity.start(this, channelUrls);
+        BaseActivity.start(this, channelUrls);*/
     }
 
     private void refresh() {
-        final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
+        /*final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
 		final AtomRssParser atomRssParser = new AtomRssParser();
 		final ArrayList<Channel> channelsFromDb = channelDbHelper.readAllChannelsFromDb();
 		final ArrayList<Channel> channelsFromNet = new ArrayList<>();
@@ -212,7 +204,7 @@ public final class RssChannelIntentService extends IntentService {
 
         if (!channels.isEmpty()) {
             sendNotification(channels);
-        }
+        }*/
 	}
 
 	private HashMap<Channel, Integer> convertChannelsToMap(
@@ -224,7 +216,7 @@ public final class RssChannelIntentService extends IntentService {
             channelIterator.remove();
             for (int i = 0, size = channels.size(); i < size; i++) {
                 final Channel leftChannel = channels.get(i);
-                if (leftChannel.getLink().equals(current.getLink())) {
+                /*if (leftChannel.getLink().equals(current.getLink())) {
                     final ArrayList<ChannelItem> channelItems = current.getChannelItems();
                     channelItems.addAll(leftChannel.getChannelItems());
                     current.setChannelItems(channelItems);
@@ -233,24 +225,24 @@ public final class RssChannelIntentService extends IntentService {
                     if (features > 0) {
                         channelMap.put(current, features);
                     }
-                }
+                }*/
             }
         }
         return channelMap;
     }
 
 	private void removeChannel(@NonNull final Intent intent) {
-		final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
+		/*final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
 		final Channel inputChannel = intent.getParcelableExtra(REMOVE_CHANNEL);
 		channelDbHelper.deleteChannelFromDb(inputChannel);
         ChannelBroadcastReceiver.start(inputChannel, ChannelBroadcastReceiver.getRemoveAction()
                 , getPackageName(), this);
 
-        updateController.turnOffUpdate();
+        updateController.turnOffUpdate();*/
 	}
 
 	private void readWriteFromUrl(@NonNull final Intent intent, @Nullable final String action) {
-        ChannelBroadcastReceiver.start(null, ChannelBroadcastReceiver.getLoadingAction()
+        /*ChannelBroadcastReceiver.start(null, ChannelBroadcastReceiver.getLoadingAction()
                 , getPackageName(), this);
 
 		final AtomRssParser atomRssParser = new AtomRssParser();
@@ -281,7 +273,7 @@ public final class RssChannelIntentService extends IntentService {
                         , ChannelBroadcastReceiver.getIoExceptionAction(), getPackageName(), this);
             }
         }
-
+*/
 	}
 
     private boolean checkConnection() {
@@ -305,7 +297,7 @@ public final class RssChannelIntentService extends IntentService {
     }
 
     private void readCurrentChannelDb(@NonNull final Intent intent, @NonNull final String action) {
-		final Channel inputChannel = intent.getParcelableExtra(READ_CURRENT_CHANNEL);
+		/*final Channel inputChannel = intent.getParcelableExtra(READ_CURRENT_CHANNEL);
 		if (!inputChannel.isRead()) {
 			final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
 			channelDbHelper.updateValueFromDb(AtomRssDataBase.ChannelEntry.TABLE_NAME
@@ -315,17 +307,17 @@ public final class RssChannelIntentService extends IntentService {
 			inputChannel.setRead(true);
 
             ChannelBroadcastReceiver.start(inputChannel, action, getPackageName(), this);
-		}
+		}*/
 	}
 
 	private void readChannelsFromDb(@Nullable final String action) {
-		final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
+		/*final AtomRssChannelDbHelper channelDbHelper = new AtomRssChannelDbHelper(this);
 		final ArrayList<Channel> channels = channelDbHelper.readAllChannelsFromDb();
 
         for (int i = 0, size = channels.size(); i < size; i++) {
             final Channel channel = channels.get(i);
             ChannelBroadcastReceiver.start(channel, action, getPackageName(), this);
-        }
+        }*/
 	}
 
 	private String formatHttp(@NonNull final String input) {

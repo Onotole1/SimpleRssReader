@@ -1,18 +1,13 @@
 package com.spitchenko.simplerssreader.channelwindow.controller;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.spitchenko.simplerssreader.R;
-import com.spitchenko.simplerssreader.base.view.BaseActivity;
-import com.spitchenko.simplerssreader.channelitemwindow.view.ChannelItemFragment;
-import com.spitchenko.simplerssreader.model.Channel;
-import com.spitchenko.simplerssreader.model.Theme;
-import com.spitchenko.simplerssreader.utils.ThemeController;
+import com.spitchenko.simplerssreader.model.rss.Channel;
 
 import java.util.ArrayList;
 
@@ -45,7 +40,7 @@ final class ChannelRecyclerAdapter extends RecyclerView.Adapter<ChannelRecyclerV
 	@Override
 	public final void onBindViewHolder(@NonNull final ChannelRecyclerViewHolder holder
             , final int position) {
-		final Channel bindChannel = channels.get(position);
+		/*final Channel bindChannel = channels.get(position);
 
 		final ThemeController themeController = new ThemeController(context);
         final Theme currentTheme = themeController.getCurrentTheme();
@@ -90,7 +85,7 @@ final class ChannelRecyclerAdapter extends RecyclerView.Adapter<ChannelRecyclerV
 				ChannelItemFragment.start((channels.get(holder.getAdapterPosition()))
                         , (BaseActivity) context);
 			}
-		});
+		});*/
 	}
 
 	@Override

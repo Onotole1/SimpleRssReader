@@ -7,24 +7,37 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
-import com.appsgeyser.sdk.AppsgeyserSDK;
-import com.appsgeyser.sdk.ads.FullScreenBanner;
-import com.appsgeyser.sdk.ads.IFullScreenBannerListener;
-import com.appsgeyser.sdk.analytics.Analytics;
 import com.spitchenko.simplerssreader.R;
 import com.spitchenko.simplerssreader.base.view.BaseActivity;
-import com.spitchenko.simplerssreader.channelitemwindow.view.ChannelItemFragment;
 import com.spitchenko.simplerssreader.channelwindow.controller.ChannelAddDialogFragment;
 import com.spitchenko.simplerssreader.channelwindow.controller.RssChannelIntentService;
 import com.spitchenko.simplerssreader.channelwindow.view.ChannelFragment;
-import com.spitchenko.simplerssreader.model.Channel;
+import com.spitchenko.simplerssreader.model.rss.Rss;
 import com.spitchenko.simplerssreader.settingswindow.view.SettingsFragment;
 import com.spitchenko.simplerssreader.utils.ThemeController;
+import com.spitchenko.simplerssreader.utils.logger.LogCatHandler;
+import com.stanfy.gsonxml.GsonXml;
+import com.stanfy.gsonxml.GsonXmlBuilder;
+import com.stanfy.gsonxml.XmlParserCreator;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 
+import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleObserver;
+import io.reactivex.SingleOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import lombok.Cleanup;
 import lombok.NonNull;
 
 /**
@@ -55,34 +68,81 @@ public class MainController {
             }
         }
 
-        AppsgeyserSDK.takeOff(activity
+        /*AppsgeyserSDK.takeOff(activity
                 , activity.getString(R.string.widgetID)
                 , activity.getString(R.string.app_metrica_on_start_event)
                 , activity.getString(R.string.template_version));
 
         AppsgeyserSDK.getFullScreenBanner(activity)
-                .load(com.appsgeyser.sdk.configuration.Constants.BannerLoadTags.ON_START);
+                .load(com.appsgeyser.sdk.configuration.Constants.BannerLoadTags.ON_START);*/
 
         updateOnSetTheme();
+
+        Single.create(new SingleOnSubscribe<Rss>() {
+            @Override
+            public void subscribe(@io.reactivex.annotations.NonNull final SingleEmitter<Rss> e) throws Exception {
+
+                final URL url = new URL("https://martinfowler.com/feed.atom");
+
+                @Cleanup
+                final InputStream inputStream = getInputStream(url);
+
+                if (null == inputStream) {
+                    throw new NullPointerException();
+                }
+
+                @Cleanup
+                final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+                final XmlParserCreator parserCreator = new XmlParserCreator() {
+                    @Override
+                    public XmlPullParser createParser() {
+                        try {
+                            return XmlPullParserFactory.newInstance().newPullParser();
+                        } catch (final Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                };
+
+                final GsonXml gsonXml = new GsonXmlBuilder()
+                        .setSameNameLists(true)
+                        .setXmlParserCreator(parserCreator)
+                        .create();
+
+                final Rss rssModel = gsonXml.fromXml(inputStreamReader, Rss.class);
+
+                if (null != rssModel.getChannel()) {
+                    e.onSuccess(rssModel);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<Rss>() {
+            @Override
+            public void onSubscribe(@io.reactivex.annotations.NonNull final Disposable d) {
+                System.out.println();
+            }
+
+            @Override
+            public void onSuccess(@io.reactivex.annotations.NonNull final Rss rss) {
+                System.out.println();
+            }
+
+            @Override
+            public void onError(@io.reactivex.annotations.NonNull final Throwable e) {
+                System.out.println();
+            }
+        });
+
+
     }
 
-    public void updateOnSetChannelItemFragment(final Channel channel) {
-        final FragmentManager manager = activity.getFragmentManager();
-        final FragmentTransaction fragmentTransaction = manager.beginTransaction();
-
-        final ChannelItemFragment fragment = new ChannelItemFragment();
-        final Bundle arguments = new Bundle();
-        arguments.putParcelable(ChannelItemFragment.getChannelUrlKey(), channel);
-        fragment.setArguments(arguments);
-
-        fragmentTransaction.replace(R.id.activity_main_container, fragment
-                , ChannelItemFragment.getChannelUrlKey());
-
-        fragmentTransaction.addToBackStack(ChannelItemFragment.getChannelItemFragmentKey());
-
-        fragmentTransaction.commit();
-
-        updateOnSetTheme();
+    private InputStream getInputStream(@NonNull final URL url) {
+        try {
+            return url.openConnection().getInputStream();
+        } catch (final IOException e) {
+            LogCatHandler.publishInfoRecord(e.getMessage());
+            return null;
+        }
     }
 
     public void updateOnSupportNavigateUp() {
@@ -138,13 +198,6 @@ public class MainController {
 
         if (null != channelFragment && null != channelFragment.getView()) {
             themeController.applyThemeToChannelWindow(channelFragment.getView(), activity);
-        }
-
-        final Fragment channelItemFragment
-                = manager.findFragmentByTag(ChannelItemFragment.getChannelItemFragmentKey());
-
-        if (null != channelItemFragment && null != channelItemFragment.getView()) {
-            themeController.applyThemeToChannelItemWindow(channelItemFragment.getView(), activity);
         }
 
         final Fragment settingsFragment

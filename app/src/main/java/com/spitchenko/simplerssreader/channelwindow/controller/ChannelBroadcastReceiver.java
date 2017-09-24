@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.spitchenko.simplerssreader.observer.FragmentAndBroadcastObserver;
-import com.spitchenko.simplerssreader.model.Channel;
+import com.spitchenko.simplerssreader.model.rss.Channel;
 
 import java.util.ArrayList;
 import java.util.Iterator;

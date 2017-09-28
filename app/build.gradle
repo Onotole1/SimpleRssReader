@@ -45,13 +45,13 @@ dependencies {
     compile "com.google.android.gms:play-services-ads:$playServicesVersion"
     compile "com.google.android.gms:play-services-gcm:$playServicesVersion"
 
+    provided "org.projectlombok:lombok:1.16.16"
+    annotationProcessor "org.projectlombok:lombok:1.16.16"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+
     testCompile 'junit:junit:4.12'
 
-    provided 'org.projectlombok:lombok:1.16.16'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
-    annotationProcessor "org.projectlombok:lombok:1.16.16"
-
-    implementation "android.arch.persistence.room:runtime:1.0.0-alpha9-1"
+    compile "android.arch.persistence.room:runtime:1.0.0-alpha9-1"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha9-1"
 
     compile 'com.stanfy:gson-xml-java:0.1.7'

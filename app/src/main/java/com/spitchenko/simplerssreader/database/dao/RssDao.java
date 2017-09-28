@@ -7,6 +7,8 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import com.spitchenko.simplerssreader.model.atom.Entry;
+import com.spitchenko.simplerssreader.model.atom.Feed;
 import com.spitchenko.simplerssreader.model.rss.Channel;
 import com.spitchenko.simplerssreader.model.rss.Item;
 
@@ -20,30 +22,58 @@ import com.spitchenko.simplerssreader.model.rss.Item;
 @Dao
 public interface RssDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertChannel(Channel... channels);
+    void insertChannel(Channel... channels);
 
     @Delete
-    public void deleteChannels(Channel... channels);
+    void deleteChannels(Channel... channels);
 
     @Update
-    public void updateChannels(Channel... channels);
+    void updateChannels(Channel... channels);
 
     @Query("SELECT * FROM channel")
-    public Channel[] loadAllChannels();
+    Channel[] loadAllChannels();
 
     @Query("SELECT * FROM channel WHERE channel_link = :channelLink")
-    public Channel[] loadChannelByLink(String channelLink);
+    Channel[] loadChannelByLink(String channelLink);
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertItems(Item... items);
+    void insertItems(Item... items);
 
     @Delete
-    public void deleteItems(Item... items);
+    void deleteItems(Item... items);
 
     @Update
-    public void updateItems(Item... items);
+    void updateItems(Item... items);
 
     @Query("SELECT * FROM item WHERE channel_link = :channelLink")
-    public Item[] loadChannelItemsByChannelLink(String channelLink);
+    Item[] loadChannelItemsByChannelLink(String channelLink);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertFeed(Feed... feeds);
+
+    @Delete
+    void deleteFeeds(Feed... feeds);
+
+    @Update
+    void updateFedds(Feed... feeds);
+
+    @Query("SELECT * FROM feed")
+    Feed[] loadAllFeeds();
+
+    @Query("SELECT * FROM feed WHERE id = :channelLink")
+    Channel[] loadFeedByLink(String channelLink);
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertEntries(Entry... entries);
+
+    @Delete
+    void deleteEntries(Entry... entries);
+
+    @Update
+    void updateEntries(Entry... entries);
+
+    @Query("SELECT * FROM item WHERE channel_link = :channelLink")
+    Entry[] loadFeedEntriesByFeedLink(String channelLink);
 }

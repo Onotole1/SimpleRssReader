@@ -1,5 +1,9 @@
 package com.spitchenko.simplerssreader.model.atom;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
@@ -11,13 +15,16 @@ import lombok.Data;
  * @author anatoliy
  */
 
+@Entity(foreignKeys = @ForeignKey(entity = Feed.class, parentColumns = "id", childColumns = "feed_id"))
 @Data
-class Link {
+public class Link {
 
     @SerializedName("rel")
-    String rel;
+    private String rel;
 
     @SerializedName("href")
-    String href;
+    private String href;
 
+    @ColumnInfo(name = "feed_id")
+    private String feedId;
 }

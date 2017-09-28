@@ -5,7 +5,8 @@ import android.arch.persistence.room.Entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Date: 21.09.17
@@ -14,8 +15,9 @@ import lombok.Data;
  * @author anatoliy
  */
 
+@EqualsAndHashCode
+@RequiredArgsConstructor
 @Entity
-@Data
 public class Image {
 
     @ColumnInfo(name = "image_link")
@@ -27,4 +29,28 @@ public class Image {
 
     @SerializedName("url")
     private String url;
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

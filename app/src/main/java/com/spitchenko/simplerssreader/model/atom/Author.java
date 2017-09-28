@@ -1,5 +1,7 @@
 package com.spitchenko.simplerssreader.model.atom;
 
+import android.arch.persistence.room.Entity;
+
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
@@ -11,8 +13,9 @@ import lombok.Data;
  * @author anatoliy
  */
 
+@Entity
 @Data
-class Author {
+public class Author {
     @SerializedName("name")
     String name;
 

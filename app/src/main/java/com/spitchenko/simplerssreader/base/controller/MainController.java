@@ -16,9 +16,11 @@ import com.spitchenko.simplerssreader.channelwindow.controller.RssChannelIntentS
 import com.spitchenko.simplerssreader.channelwindow.view.ChannelFragment;
 import com.spitchenko.simplerssreader.database.AppDatabase;
 import com.spitchenko.simplerssreader.database.dao.RssDao;
+import com.spitchenko.simplerssreader.model.AbstractFeed;
 import com.spitchenko.simplerssreader.model.rss.Channel;
 import com.spitchenko.simplerssreader.model.rss.Item;
 import com.spitchenko.simplerssreader.model.rss.Rss;
+import com.spitchenko.simplerssreader.repository.RssAtomLocalRepository;
 import com.spitchenko.simplerssreader.settingswindow.view.SettingsFragment;
 import com.spitchenko.simplerssreader.utils.ThemeController;
 import com.spitchenko.simplerssreader.utils.logger.LogCatHandler;
@@ -125,6 +127,9 @@ public class MainController {
                 }
 
                 rssDao.insertItems(rssModelChannelItem.toArray(new Item[rssModelChannelItem.size()]));
+
+                final RssAtomLocalRepository rssAtomLocalRepository = RssAtomLocalRepository.getInstance(activity.getApplication());
+                final ArrayList<AbstractFeed> allAbstractFeeds = rssAtomLocalRepository.getAllAbstractFeeds();
 
                 if (null != rssModelChannel) {
                     e.onSuccess(rssModel);
